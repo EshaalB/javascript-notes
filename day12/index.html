@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+    <h1>Local</h1>
+    <h2>Session</h2>
+    <button>Click to change color</button>
+
+</body>
+<script>
+    const local = document.querySelector('h1');
+    const session = document.querySelector('h2');
+    const btn = document.querySelector('button');
+
+    // Restore text content
+    const localVal = localStorage.getItem('perm');
+    if (localVal) {
+        local.textContent = localVal;
+    } else {
+        localStorage.setItem('perm', local.textContent);
+    }
+
+    const sessionVal = sessionStorage.getItem('temp');
+    if (sessionVal) {
+        session.textContent = sessionVal;
+    } else {
+        sessionStorage.setItem('temp', session.textContent);
+    }
+    const localColor = localStorage.getItem('localColor');
+    if (localColor) {
+        local.style.color = localColor;
+    }
+    btn.addEventListener('click', () => {
+        local.style.color = 'blue';
+        session.style.color = 'red';
+        // Save local color to localStorage
+        localStorage.setItem('localColor', 'blue');
+    });
+    localStorage.removeItem('perm');
+    localStorage.clear();
+</script>
+
+</html>
