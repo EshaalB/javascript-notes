@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Random Country Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+            background-color: #f2f2f2;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #4e4caf;
+            color: white;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        #country-card {
+            margin-top: 30px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #country-card img {
+            border-radius: 50%;
+            margin-bottom: 10px;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        #country-card h2 {
+            margin: 10px 0 5px;
+        }
+
+        #country-card p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Random Country Details</h1>
+    <input type="text" id="country-input" placeholder="Enter country name">
+    <button onclick="getCountry()">Get Country</button>
+    <div id="country-card">Click the button to get details.</div>
+
+    <script>
+        async function getCountry() {
+            const countryCard = document.getElementById('country-card');
+            const input = document.getElementById('country-input');
+            const countryName = input.value.trim();
+            if (!countryName) {
+                countryCard.innerHTML = '<p style="color:red;">Please enter a country name.</p>';
+                return;
+            }
+            countryCard.innerHTML = "Loading country...";
+
+            try {
+                const response = await fetch(`https://restcountries.com/v3.1/name/${encodeURIComponent(countryName)}`);
+                if (!response.ok) throw new Error("Error in fetching Data");
+                const data = await response.json();
+                const country = data[0];
+                const languages = country.languages ? Object.values(country.languages).join(', ') : 'N/A';
+                countryCard.innerHTML = `
+                    <img src="${country.flags.png}" alt="Country Flag" />
+                    <h2>${country.name.common}</h2>
+                    <p><strong>Languages:</strong> ${languages}</p>
+                    <p><strong>Population:</strong> ${country.population.toLocaleString()}</p>
+                `;
+            } catch (error) {
+                countryCard.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+
+</html>
