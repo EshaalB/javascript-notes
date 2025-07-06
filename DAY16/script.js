@@ -295,6 +295,25 @@ function initEventListeners() {
             searchByTitle();
         }
     });
+    function enableMobileCardToggle() {
+        if (window.innerWidth <= 768) {
+            document.querySelectorAll('.book-card').forEach(card => {
+                card.addEventListener('click', function (e) {
+                    if (e.target.closest('.book-details')) return;
+                    document.querySelectorAll('.book-card.show-details').forEach(openCard => {
+                        if (openCard !== card) openCard.classList.remove('show-details');
+                    });
+                    card.classList.toggle('show-details');
+                });
+            });
+        }
+    }
+
+    // After rendering book cards, call this:
+    function afterBookCardsRendered() {
+        addBookCardListeners(DOM.bookResults);
+        enableMobileCardToggle();
+    }
 
     DOM.navLinks.forEach(link => {
         link.addEventListener('click', e => {

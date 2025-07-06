@@ -707,3 +707,25 @@ main>*:not(#loader) {
         transform: rotateY(0deg);
     }
 }
+
+/* Show book details on tap for mobile devices */
+@media (max-width: 768px) {
+    .book-card {
+        cursor: pointer;
+    }
+
+    .book-details {
+        pointer-events: auto;
+        max-height: 60vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        /* Make sure details are above other content */
+        z-index: 2;
+    }
+
+    .book-card.show-details .book-details {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+}
