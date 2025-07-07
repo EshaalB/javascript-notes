@@ -1,4 +1,4 @@
-// Working with APIS
+// APIS Notes
 
 // 1. Fetch (built in)
 async function getData() {
